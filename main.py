@@ -197,7 +197,7 @@ def create_node(message):
 
     node = VulNode()
     node.id = record.id
-    node.description = record.description
+
 
     return node
 
@@ -272,12 +272,14 @@ def show_tree_from_db():
 
 
 def show_description():
-    prompt = input("Enter CVE to get description")
-    cve_message = prompt.rstrip()
-    #get the record from the database
-    with DatabaseOperations as db:
-        record = db.get_vuln(cve_message)
-    print(f'Vulnerability: { record.id}\n Description: { record.description}')
+
+    prompt = "Enter CVE which you want to see countermeasures. Press Exit to quit\n"
+    try:
+        with DatabaseOperations() as db:
+            record = db.get_vuln(prompt)
+            print(f'Vulnerability: { record.id}\n Description: { record.description}')
+    except Exception as e:
+        print(f'Error {e} happened')
 
 
 def show_countermeasure():
