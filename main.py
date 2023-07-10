@@ -13,6 +13,11 @@ def welcome_menu():
     # pretty_print = Figlet(font='larry3d')
     # print(pretty_print.renderText("C-Engine"))
     print('Welcome to the smart countermeasures engine\n\n')
+    print('Option 1: Make a vulnerability tree\n'
+          'Option 2: Show vulnerability relationships\n'
+          'Option 3: Provide a Description\n'
+          'Option 4: Show Countermeasures for a vulnerability'
+          'Option 5: Exit from the Program')
     true = True
 
     while true:
@@ -29,6 +34,11 @@ def welcome_menu():
             except Exception as e:
                 print(f'F2 Error: {e}')
         elif choice == "3":
+            try:
+                show_description()
+            except Exception as e:
+                print(f'F3 Error: {e}')
+        elif choice == "4":
             try:
                 show_countermeasure()
             except Exception as e:
@@ -259,6 +269,15 @@ def show_tree_from_db():
         print(f'Average Complexity: {abs(average)}')
     except Exception as e:
         print(f'Error {e} happened')
+
+
+def show_description():
+    prompt = input("Enter CVE to get description")
+    cve_message = prompt.rstrip()
+    #get the record from the database
+    with DatabaseOperations as db:
+        record = db.get_vuln(cve_message)
+    print(f'Vulnerability: { record.id}\n Description: { record.description}')
 
 
 def show_countermeasure():
